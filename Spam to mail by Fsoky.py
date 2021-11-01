@@ -17,23 +17,23 @@ def send_mail( event ):
 	To = toaddr.get()
 	T = topic.get()
 	M = mess.get()
-	
+	N = number.get()
 
-	
-	msg = MIMEMultipart()
+	for value in range( int( N ) ):
+		msg = MIMEMultipart()
 
-	msg[ 'Subject' ] = T
-	msg[ 'From' ] = L
-	body = M
-	msg.attach( MIMEText( body, 'plain' ) )
+		msg[ 'Subject' ] = T
+		msg[ 'From' ] = L
+		body = M
+		msg.attach( MIMEText( body, 'plain' ) )
 
-	server = root.SMTP_SSL( U, 465 )
-	server.login( L, P )
-	server.sendmail( L, To, msg.as_string() )
-	server.quit()
+		server = root.SMTP_SSL( U, 465 )
+		server.login( L, P )
+		server.sendmail( L, To, msg.as_string() )
+		server.quit()
 
-	value += 1
-	result [ 'text' ] = 'x' + str( value )
+		value += 1
+		
 
 # Events
 Tlogin = Label( text = 'Login:', font = 'Consolas' )
@@ -54,11 +54,13 @@ topic = Entry( screen, font = 'Consolas' )
 Tmess = Label( text = 'Message:', font = 'Consolas' )
 mess = Entry( screen, font = 'Consolas' )
 
+Tnumber = Label( text = 'Number of message:', font = 'Consolas' )
+number = Entry( screen, font = 'Consolas' )
+
+enter1 = Button( text = 'Send', font = 'Consolas', width = 18 )
+enter2 = Button( text = 'accept', font = 'Consolas', width = 18 )
 
 
-enter = Button( text = 'Send', font = 'Consolas', width = 18 )
-
-result = Label( text = 'Result:', font = 'Consolas' )
 
 # Packers
 Tlogin.grid( row = 0, column = 0, sticky = W, padx = 1, pady = 1 )
@@ -79,14 +81,17 @@ topic.grid( row = 4, column = 1, padx = 1, pady = 1 )
 Tmess.grid( row = 5, column = 0, sticky = W, padx = 1, pady = 1 )
 mess.grid( row = 5, column = 1, padx = 1, pady = 1 )
 
+Tnumber.grid( row = 6, column = 0, sticky = W, padx = 1, pady = 1 )
+number.grid( row = 6, column = 1, padx = 1, pady = 1 )
 
+enter1.grid( row = 7, column = 0, padx = 1, pady = 1 )
+enter2.grid( row = 7, column = 1, padx = 1, pady = 1)
 
-enter.grid( row = 7, column = 0, padx = 1, pady = 1 )
-
-result.grid( row = 7, column = 1, padx = 1, pady = 1 )
 
 # Bind
-enter.bind( '<Button-1>', send_mail )
+enter1.bind( '<Button-1>', send_mail )
+enter2.bind( '<Button-2>',  )
+
 
 # The end
 screen.mainloop()
